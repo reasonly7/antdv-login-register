@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse, HttpStatusCode } from "axios";
+import { message as antdMessage } from "ant-design-vue";
 
 export interface ResponseData<T> {
   data: T;
@@ -8,35 +9,28 @@ export interface ResponseData<T> {
 }
 
 const request = axios.create({
-  //  baseURL: import.meta.env.VITE_API_PREFIX
+  baseURL: import.meta.env.VITE_API_PREFIX,
 });
 
-if (import.meta.env.VITE_USE_MOCK === "true") {
-  (await import("../mock")).default(request);
-}
-
 request.interceptors.request.use((request) => {
-  // const { access_token } = localStorage;
-  // if (access_token) {
-  //   request.headers.Authorization = `Bearer ${access_token}`;
-  // }
+  const { access_token } = localStorage;
+  if (access_token) {
+    request.headers.Authorization = `Bearer ${access_token}`;
+  }
 
   return request;
 });
 
-// Use more beautiful tips, like `message` in ant-design-vue
 const message = {
   success: (msg: string) => {
-    alert(msg);
+    antdMessage.success(msg);
   },
   error: (msg: string) => {
-    console.log(msg);
+    antdMessage.error(msg);
   },
 };
 
-// Todo implement this.
 const serverCodeMessageMap: Record<number, string> = {};
-// Todo implement this.
 const httpCodeMessgeMap: Record<number, string> = {};
 
 request.interceptors.response.use(
