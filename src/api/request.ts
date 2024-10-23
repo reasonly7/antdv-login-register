@@ -9,7 +9,7 @@ export interface ResponseData<T> {
 }
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_PREFIX,
+  baseURL: "/api/rest/v1",
 });
 
 request.interceptors.request.use((request) => {

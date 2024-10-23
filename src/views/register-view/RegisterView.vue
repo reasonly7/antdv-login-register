@@ -31,7 +31,7 @@ onMounted(() => {
 
 <style scoped lang="less">
 .register-view {
-  background-color: #d3e3fd;
+  background-color: #EFF2EF;
   height: 100%;
   display: flex;
   align-items: center;
