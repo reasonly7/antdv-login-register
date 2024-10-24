@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse, HttpStatusCode } from "axios";
 import { message as antdMessage } from "ant-design-vue";
+import { router } from "@/router";
 
 export interface ResponseData<T> {
   data: T;
@@ -13,9 +14,9 @@ const request = axios.create({
 });
 
 request.interceptors.request.use((request) => {
-  const { access_token } = localStorage;
-  if (access_token) {
-    request.headers.Authorization = `Bearer ${access_token}`;
+  const { accessToken } = sessionStorage;
+  if (accessToken) {
+    request.headers.Authorization = `Bearer ${accessToken}`;
   }
 
   return request;
@@ -68,8 +69,8 @@ request.interceptors.response.use(
 
     switch (status) {
       case HttpStatusCode.Unauthorized:
-        delete localStorage.access_token;
-        // router.replace("/login");
+        delete sessionStorage.accessToken;
+        router.replace("/login");
         tip();
         break;
       default:

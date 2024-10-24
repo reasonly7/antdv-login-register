@@ -1,12 +1,22 @@
 <script setup lang="ts">
-import { Card, Flex } from "ant-design-vue";
-import LoginForm from "./login-form/LoginForm.vue";
 import { onMounted } from "vue";
-import { useCaptcha } from "@/composables/useCaptcha";
+import { Card, Flex } from "ant-design-vue";
+import { LoginForm } from "./login-form";
+import { useCaptcha } from "./useCaptcha";
 import { useLogin } from "./useLogin";
+import { router } from "@/router";
 
 const captcha = useCaptcha();
 const login = useLogin();
+
+const loginHandler = () => {
+  login
+    .submit(captcha.sessionId!)
+    .then(() => {
+      router.replace("/home");
+    })
+    .catch(captcha.refresh);
+};
 
 onMounted(() => {
   captcha.refresh();
@@ -20,7 +30,7 @@ onMounted(() => {
         v-model:formModel="login.formModel"
         :captcha="captcha.img"
         :loading="login.loading"
-        @login="login.submit(captcha.sessionId!).then(captcha.refresh)"
+        @login="loginHandler"
         @refresh="captcha.refresh()"
       ></LoginForm>
 

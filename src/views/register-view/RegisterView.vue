@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { Card } from "ant-design-vue";
-import RegisterForm from "./register-form/RegisterForm.vue";
 import { onMounted } from "vue";
-import { useCaptcha } from "@/composables/useCaptcha";
+import { Card } from "ant-design-vue";
+
+import { RegisterForm } from "./register-form";
 import { useRegister } from "./useRegister";
+
+import { useCaptcha } from "../login-view";
 
 const captcha = useCaptcha();
 const register = useRegister();
@@ -20,7 +22,7 @@ onMounted(() => {
         v-model:formModel="register.formModel"
         :captcha="captcha.img"
         :loading="register.loading"
-        @register="register.submit(captcha.sessionId!).then(captcha.refresh)"
+        @register="register.submit(captcha.sessionId!).catch(captcha.refresh)"
         @refresh="captcha.refresh()"
       ></RegisterForm>
 
@@ -31,7 +33,7 @@ onMounted(() => {
 
 <style scoped lang="less">
 .register-view {
-  background-color: #EFF2EF;
+  background-color: #eff2ef;
   height: 100%;
   display: flex;
   align-items: center;

@@ -23,6 +23,8 @@ export const useRegister = () => {
     loadingToggle(false);
     if (success) {
       router.replace("/login");
+    } else {
+      throw new Error("Register Failed");
     }
   };
 
