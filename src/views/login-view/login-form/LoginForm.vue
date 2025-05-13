@@ -36,6 +36,7 @@ const formRef = ref<FormInstance | null>(null);
         autofocus
         v-model:value="formModel.username"
         placeholder="Username"
+        autocomplete="username"
       />
     </FormItem>
 
@@ -43,6 +44,7 @@ const formRef = ref<FormInstance | null>(null);
       <InputPassword
         v-model:value="formModel.password"
         placeholder="Password"
+        autocomplete="current-password"
       />
     </FormItem>
 
